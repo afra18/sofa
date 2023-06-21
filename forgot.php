@@ -1,12 +1,11 @@
-<?php
-session_start();
+<?php 
+session_start()
 ?>
-
-<!doctype html>
-<html lang="en">
-
-<head>
-    <!-- Required meta tags -->
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Forgot Password</title>
+            <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -19,8 +18,6 @@ session_start();
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-
-    <title>Change Password</title>
     <style>
         /* Google Font Link */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
@@ -240,94 +237,93 @@ body{
 }
 </style>
 
-   
      <!-- PHP CONNECTION FILE -->
 	 <?php include 'connect.php' ?>
 
+    </head>
+
+
+    <?php
    
+if(isset($_POST['submit'])){
+    $email = $_POST['nemail'];
+  
+    $email_search="select * from sample where email = '$email'";
+    $query = mysqli_query($conn,$email_search);
 
-
-</head>
-
-<?php
-if(isset($_POST['login']))
-{
-  // Get User Input from Form
-  $email = $_POST['nemail'];
-  $oldPassword = $_POST['opassword']; 
-  $newPassword = $_POST['npassword']; 
-  $confirmPassword = $_POST['cpassword']; 
-
-  // Check Old Password against what's stored in DB
-  $sql = "SELECT * FROM sample WHERE email = '$email' AND password = '".($oldPassword)."'";
-  $result = mysqli_query($conn, $sql);
-  $row = mysqli_fetch_assoc($result);
-  $count = mysqli_num_rows($result);
-
-  // If Old Password is correct
-  if($count == 1)
-  {
-    // Check if New Password and Confirm Password match
-    if($newPassword == $confirmPassword)
-    {
-        // Update Password in DB 
-       $sql = "UPDATE sample SET password = '".($newPassword)."' WHERE email = '$email'";
-
-       $result = mysqli_query($conn, $sql);
-
-       // Check Result of Query
-       if ($result) 
-       {
+    $email_count = mysqli_num_rows($query);
+   
+   
+    if($email_count==1){
+        
+        // $pass = mysqli_fetch_assoc($query);
+        // $db_pass = $pass['Password'];
+        $newPassword = substr((uniqid(mt_rand(), true)), 0, 8);
+        $hashedPassword = ($newPassword);
+        $sql = "UPDATE sample SET password = '$hashedPassword', cpassword = '$hashedPassword' WHERE Email = '$email'";
+        if(mysqli_query($conn,$sql))
+        {
+            ?>
+            <script>
+                alert("Successful");
+            </script>
+            <?php
+        }
+        else{
+            ?>
+            <script>
+                alert("Failed");
+            </script>
+            <?php
+        }
         ?>
-		<script>
-			alert("Password Changed Successfully.");
-			window.location.href = "index.php";
-		</script>
-		<?php
-       }
-       else 
-       {
-        ?>
-		<script>
-			alert("The two passwords do not match.");
-		</script>
-		<?php
-       }
+        <script>
+         var variableData = "<?php echo $newPassword; ?>";
+         alert(variableData);
+        </script>
+        <?php
+      
     }
-    else
-    {
-        ?>
-		<script>
-			alert("Error Occured.");
-		</script>
-		<?php
+        else{
+            ?>
+            <script>
+                alert("Invalid Email")
+            </script>
+            <?php
+        }
     }
-}
-else
-{
-    ?>
-	<script>
-		alert("Your old password do not Match with our records.");
-	</script>
-	<?php
-}
-}
+    
 ?>
 
 
-<body>
-<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-    <div class="card">
-        <p class="lock-icon"><i class="fas fa-lock"></i></p>
-        <h2>Change Password</h2>
-        <p>YOU CAN RESET YOUR PASSWORD HERE.</p>
-        <input id="text" type="email" class="passInput" name="nemail" placeholder="Email" required/>
-        <input id="epass" type="password" class="passInput" name="opassword" placeholder="Old Password" />
-        <input id="epass" type="password" class="passInput" name="npassword" placeholder="New Password" />
-        <input id="epass" type="password"class="passInput" name="cpassword" placeholder="Confirm Password" />
-        <button type="login" name="login">Reset My Password</button>
-    </div>
-</form>
-</body>
-
+    <body>
+        
+    <div class="form_bg text-center">
+       
+       <div class="container">
+       
+       <div class="row">
+       <div class="col-12 col-md-12 col-lg-6 box2 ">
+       <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
+         <div class="backicon d-flex">
+         <a href="Login.php" data-toggle="tooltip" title="Login"><i class="fa-solid fa-right-to-bracket fa-rotate-180"></i></a> 
+       <h5>Forgot Password</h5>&nbsp;&nbsp;
+       </div>
+       <br>
+       <div class="form-group">
+             <i class="fa-solid fa-envelope icon"></i>
+           <input class="form-control" type="email" placeholder="Email"  name="nemail" required>
+       </div>
+      
+      
+       <div class="form-group">
+             <input class=" btn" type="submit" value="Submit" name="submit">
+       </div>
+       
+       </form>
+   </div>
+   </div>
+   </div>
+     </div>
+    </body>
 </html>

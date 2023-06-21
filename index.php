@@ -29,7 +29,8 @@ session_start();
                 <ul class="links">
                     <li><a href="#" id="first">Home</a></li>
                     <li><a href="#about">About</a></li>
-                    <li><a href="#product">Products</a></li>
+                    <li><a href="#Best Seller">Best Seller</a></li>
+                    <li><a href="cart.php">products</a></li>
                     <li><a href="#contact">Contact</a></li>
                     <li><button class="main-btn">sign Up</button></li>
                 </ul>
@@ -108,10 +109,10 @@ session_start();
 
 
 
-    <!-- Product Section Start -->
-    <section class="product" id="product">
+    <!-- Best Seller Section Start -->
+    <section class="Best Seller" id="Best Seller">
         <div class="main-txt">
-            <h3>Products</h3>
+            <h3>Best Seller</h3>
         </div>
         <div class="card-content">
             <div class="row">
@@ -184,7 +185,7 @@ session_start();
         </div>
 
     </section>
-    <!-- Product Section End -->
+    <!-- Best Seller Section End -->
 
     <!-- Sale Products Start -->
     <section class="product" id="products" style="margin-top: 50px;">

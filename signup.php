@@ -28,7 +28,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: url("../reg/image.jfif");
+  background image: url("../reg/stock.jpg");
   background-size: cover;
   width: 100%;
 
@@ -175,8 +175,7 @@ if(isset($_POST['submit'])){
         ?>
         <script>
           alert("Account created Successfully");
-          header("Location: success.php");
-
+          window.location.href = "success.php";
           </script>
           <?php
       }
